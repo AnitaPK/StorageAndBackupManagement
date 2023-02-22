@@ -14,10 +14,10 @@ To attach controller permanently-
 
 # blkid /dev/md1
 		
-			## Copy the ID  UUID="24c212a8-3dee-4a13-92c7-da47715bbdf1" TYPE="ext4"
+			## Copy the ID  UUID="42c212a8-3dee-4a13-92c7-da47715bbdf1" TYPE="ext4"
 
 # vi /etc/fstab
-			## Paste the ID in this format  UUID=24c212a8-3dee-4a13-92c7-da47715bbdf1 /mnt/raid1-drive	ext4	defaults	0 0 
+			## Paste the ID in this format  UUID=42c212a8-3dee-4a13-92c7-da47715bbdf1 /mnt/raid1-drive	ext4	defaults	0 0 
 
 # mdadm --detail /dev/md1
 # mount -arv
