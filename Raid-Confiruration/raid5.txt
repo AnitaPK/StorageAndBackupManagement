@@ -13,10 +13,10 @@ Requirement : one VM having One Boot disk = 20GB , disk 1 = 20GB , disk 2 = 20GB
 To attach controller permanently-
 
 # blkid /dev/md5
-			## Copy the ID- UUID="3a26cad3-36f9-4001-b8db-01808aac862d" TYPE="ext4"
+			## Copy the ID- UUID="5b26cad3-36f9-4001-b8db-01808aac862d" TYPE="ext4"
 
 # vi /etc/fstab
-			## Paste the ID in this format-    UUID=3a26cad3-36f9-4001-b8db-01808aac862d /mnt/raid5-drive	ext4	defaults	0 0 
+			## Paste the ID in this format-    UUID=5b26cad3-36f9-4001-b8db-01808aac862d /mnt/raid5-drive	ext4	defaults	0 0 
 
 # mdadm --detail /dev/md5
 # mount -arv
