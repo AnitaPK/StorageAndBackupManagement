@@ -1,0 +1,41 @@
+Raid0 configuration-
+
+Requirement : one VM having One Boot disk = 20GB , Raid disk 1 = 20GB , Raid disk 2 = 20GB
+
+# lsblk	
+# yum install mdadm
+# mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdb /dev/sdc
+# mkfs.ext4 /dev/md0
+# mkdir /mnt/raid0-drive
+# mount /dev/md0 /mnt/raid0-drive
+# df -Th
+
+
+To attach controller permanently-
+
+# blkid /dev/md0
+		         ## gives the UUID of attach disks
+			 ## Copy the ID UUID="6eebbd10-2735-47f0-971c-dfc7579e3cc9" TYPE="ext4"
+
+# vi /etc/fstab
+
+			 ## Paste the ID in this format   UUID=6eebbd10-2735-47f0-971c-dfc7579e3cc9 /mnt/raid0-drive	ext4	defaults	0 0 
+
+# mdadm --detail /dev/md0
+
+# mount -arv
+
+# reboot
+
+# mdadm --detail /dev/md0
+
+# df -Th
+
+to stop and remove a RAID0 array-
+
+# umount /mnt/raid0-drive
+# mdadm --stop /dev/md0
+# mdadm --zero-superblock /dev/sdb /dev/sdc
+# mdadm --remove /dev/md0
+# cat /proc/mdstat
+# lsblk

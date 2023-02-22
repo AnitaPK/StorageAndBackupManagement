@@ -1,0 +1,32 @@
+Raid1 configuration-
+
+Requirements: one VM having One Boot disk = 20GB , disk 1 = 20GB , disk 2 = 20GB
+	
+# yum install mdadm
+# mdadm --create --verbose /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc
+# mkfs.ext4 /dev/md1
+# mkdir /mnt/raid1-drive
+# mount /dev/md1 /mnt/raid1-drive
+# df -Th
+
+
+To attach controller permanently-
+
+# blkid /dev/md1
+		
+			## Copy the ID  UUID="24c212a8-3dee-4a13-92c7-da47715bbdf1" TYPE="ext4"
+
+# vi /etc/fstab
+			## Paste the ID in this format  UUID=24c212a8-3dee-4a13-92c7-da47715bbdf1 /mnt/raid1-drive	ext4	defaults	0 0 
+
+# mdadm --detail /dev/md1
+# mount -arv
+# reboot
+# mdadm --detail /dev/md1
+# df -Th
+
+Stop and remove a RAID array-
+
+# umount /mnt/raid1-drive
+# mdadm --stop /dev/md1
+# mdadm --remove /dev/md1

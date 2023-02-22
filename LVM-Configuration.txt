@@ -1,0 +1,35 @@
+LVM Configuration
+
+Requirements : ADD Two hardisk in vm machine
+
+Run following commands :
+
+# lsblk
+# yum install lvm2
+
+# pvcreate /dev/sdb /dev/sdc             (for create physical volume)
+# vgcreate HPCSA /dev/sdb /dev/sdc       (HPCSA it is a name of virtual group)
+# lvcreate -n hpcsa_lab --size 1G HPCSA  (hpcsa_lab it is a name of logical volume)
+
+# vgs
+# lvs
+
+# fdisk /dev/mapper/HPCSA-hpcsa_lab
+                     Command (m for help):
+                     press n then enter-enter 
+                     Command (m for help): w (to write)
+                   
+# mkfs.ext4 /dev/mapper/HPCSA-hpcsa_lab
+# mkdir lab
+# mount /dev/mapper/HPCSA-hpcsa_lab lab
+# lvextend -L +2G /dev/mapper/HPCSA-hpcsa_lab  (for extend logical volume)
+# resize2fs /dev/mapper/HPCSA-hpcsa_lab
+# df -h
+# lvcreate -L 1GB -s -n hpcsa_lab_snap /dev/mapper/HPCSA-hpcsa_lab
+# lvconvert --merge /dev/mapper/HPCSA-hpcsa_lab
+
+------------------------------
+
+
+
+

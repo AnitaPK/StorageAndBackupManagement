@@ -1,0 +1,33 @@
+Raid10 (1+0) configuration-
+
+Requirements : one VM having One Boot disk = 20GB , disk 1 = 20GB ,  disk 2 = 20GB , Raid disk 3 = 20GB , Raid disk 4 = 20GB
+
+# yum install mdadm
+# mdadm --create --verbose /dev/md10 --level=10 --raid-devices=4 /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# mkfs.ext4 /dev/md10
+# mkdir /mnt/raid10-drive
+# mount /dev/md10 /mnt/raid10-drive
+# df -Th
+
+
+To attach controller permanently -
+
+# blkid /dev/md0
+			## Copy the ID  UUID="46dd2b9c-3f50-4445-a991-6a7c15bc2f64" TYPE="ext4"
+
+# vi /etc/fstab
+			## Paste the ID in this format    UUID=46dd2b9c-3f50-4445-a991-6a7c15bc2f64 /mnt/raid10-drive	ext4	defaults	0 0 
+
+# mdadm --detail /dev/md10
+# mount -arv
+# reboot
+# mdadm --detail /dev/md10
+# df -Th
+
+Note : # halt 	##This command used by root -- This command writes data to the disk and then stops the processor.
+
+To stop and remove a RAID10 array
+
+# umount /mnt/raid10-drive
+# mdadm --stop /dev/md10
+# mdadm --remove /dev/md10

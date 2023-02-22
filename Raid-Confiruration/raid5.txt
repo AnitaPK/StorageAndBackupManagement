@@ -1,0 +1,31 @@
+Raid5 configuration-
+
+Requirement : one VM having One Boot disk = 20GB , disk 1 = 20GB , disk 2 = 20GB , disk 3 = 20GB , disk 4 = 20GB
+
+# yum install mdadm
+# mdadm --create --verbose /dev/md5 --level=5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd --spare-devices=1 /dev/sde
+# mkfs.ext4 /dev/md5
+# mkdir /mnt/raid5-drive
+# mount /dev/md5 /mnt/raid5-drive
+# df -Th
+
+
+To attach controller permanently-
+
+# blkid /dev/md5
+			## Copy the ID- UUID="3a26cad3-36f9-4001-b8db-01808aac862d" TYPE="ext4"
+
+# vi /etc/fstab
+			## Paste the ID in this format-    UUID=3a26cad3-36f9-4001-b8db-01808aac862d /mnt/raid5-drive	ext4	defaults	0 0 
+
+# mdadm --detail /dev/md5
+# mount -arv
+# reboot
+# mdadm --detail /dev/md5
+# df -Th
+    
+To stop and remove a RAID array-
+
+# umount /mnt/raid5-drive
+# mdadm --stop /dev/md5
+# mdadm --remove /dev/md5
